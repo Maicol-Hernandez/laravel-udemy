@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -16,7 +17,9 @@ class ProductController extends Controller
     public function index()
     {
 
-        return view('products.index');
+        return view('products.index')->with([
+            'products' => Product::all()
+        ]);
     }
 
     /**
@@ -26,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return 'This is the form to create a product ' . ProductController::class;
+        return view('products.create');
     }
 
     /**
@@ -35,9 +38,29 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $rules = [
+            'title' => ['required', 'max:255'],
+            'description' => ['required', 'max:1000'],
+            'price' => ['required', 'min:1'],
+            'stock' => ['required', 'min:0'],
+            'status' => ['required', 'in:available,unavailable']
+        ];
+
+        $request->validate($rules);
+
+        if ($request->status == 'available' && $request->stock == 0) {
+
+            return redirect()
+                ->back()
+                ->withInput($request->all())
+                ->withErrors('If avalible must have stock');
+        }
+
+        $product = Product::create($request->all());
+
+        return redirect()->route('products.index')->withSuccess("The new product with id {$product->id} was created");
     }
 
     /**
@@ -48,7 +71,9 @@ class ProductController extends Controller
      */
     public function show($product)
     {
-        return view('products.show');
+        $product = Product::findOrFail($product);
+
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -59,7 +84,11 @@ class ProductController extends Controller
      */
     public function edit($product)
     {
-        return "Showing the form to edit the product with product {$product} " . ProductController::class;
+        $product = Product::findOrFail($product);
+        $status = Product::select('status')->groupByRaw('status')->pluck('status', 'status');
+
+        // dd($status);
+        return view('products.edit', compact('product', 'status'));
     }
 
     /**
@@ -71,7 +100,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $rules = [
+            'title' => ['required', 'max:255'],
+            'description' => ['required', 'max:1000'],
+            'price' => ['required', 'min:1'],
+            'stock' => ['required', 'min:0'],
+            'status' => ['required', 'in:available,unavailable']
+        ];
+
+        $request->validate($rules);
+
+        $product->update($request->all());
+
+        return redirect()->route('products.index')->withSuccess("The product with id {$product->id} was updated");
     }
 
     /**
@@ -81,6 +122,8 @@ class ProductController extends Controller
      */
     public function destroy($product)
     {
-        //
+        $product = Product::findOrFail($product)->delete();
+
+        return redirect()->route('products.index')->withSuccess("The product was deleted");
     }
 }
