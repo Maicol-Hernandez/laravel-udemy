@@ -4,7 +4,7 @@
 
     <h1>List of Products</h1>
 
-    <a href="{{ route('products.create') }}" class="btn btn-success">
+    <a href="{{ route('products.create') }}" class="btn btn-success mb-3">
         {{ __('Create New Product') }}
     </a>
 
@@ -36,6 +36,10 @@
                             <td scope="row">{{ $product->stock }}</td>
                             <td scope="row">{{ $product->status }}</td>
                             <td>
+                                {{-- <a href="{{ route('products.show', $product->title) }}" class="btn btn-link">
+                                    {{ __('Show') }}
+                                </a> --}}
+
                                 <a href="{{ route('products.show', $product->id) }}" class="btn btn-link">
                                     {{ __('Show') }}
                                 </a>
@@ -44,7 +48,7 @@
                                     {{ __('Edit') }}
                                 </a>
 
-                                <form action="{{ route('products.destroy', $product->id) }}" method="post">
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-link">

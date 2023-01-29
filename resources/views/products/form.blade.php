@@ -84,7 +84,7 @@
     </div>
 </div>
 
-<div class="form-group mb-0 text-right mb-2">
+<div class="form-group text-right mb-2">
     <button type="submit" class="btn btn-primary">
         Save Product
     </button>

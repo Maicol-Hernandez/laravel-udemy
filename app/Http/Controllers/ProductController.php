@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -69,10 +73,8 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($product)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($product);
-
         return view('products.show', compact('product'));
     }
 
@@ -82,12 +84,10 @@ class ProductController extends Controller
      * @param int id
      * @return \Illuminate\Http\Response
      */
-    public function edit($product)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($product);
         $status = Product::select('status')->groupByRaw('status')->pluck('status', 'status');
 
-        // dd($status);
         return view('products.edit', compact('product', 'status'));
     }
 
@@ -120,9 +120,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($product)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($product)->delete();
+        $product->delete();
 
         return redirect()->route('products.index')->withSuccess("The product was deleted");
     }
