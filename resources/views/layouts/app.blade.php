@@ -81,7 +81,7 @@
             <div class="container-fluid">
                 @if (session()->has('success'))
                     <div class="alert alert-success" role="alert">
-                        <strong>{{ session()->get('success') }}</strong>
+                        <span>{{ session()->get('success') }}</span>
                     </div>
                 @endif
 
@@ -89,7 +89,7 @@
                     <div class="alert alert-danger" role="alert">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li><strong>{{ $error }}</strong></li>
+                                <li><span>{{ $error }}</span></li>
                             @endforeach
                         </ul>
                     </div>
