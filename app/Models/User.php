@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * Class User
@@ -90,5 +91,15 @@ class User extends Authenticatable
     public function payments(): HasManyThrough
     {
         return $this->hasManyThrough(Payment::class, Order::class, 'customer_id');
+    }
+
+    /**
+     * Get the image that owns the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }
