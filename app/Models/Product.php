@@ -43,9 +43,9 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function carts(): BelongsToMany
+    public function carts()
     {
-        return $this->belongsToMany(Cart::class)->withPivot('quantity');
+        return $this->morphedByMany(Cart::class, 'productable')->withPivot('quantity');
     }
 
     /**
@@ -53,9 +53,9 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function orders(): BelongsToMany
+    public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('quantity');
+        return $this->morphedByMany(Order::class, 'productable')->withPivot('quantity');
     }
 
     /**

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Class Order
@@ -58,10 +60,10 @@ class Order extends Model
     /**
      * The products that belong to the Order
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function products(): BelongsToMany
+    public function products(): MorphToMany
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity');
+        return $this->morphToMany(Product::class, 'productable')->withPivot('quantity');
     }
 }

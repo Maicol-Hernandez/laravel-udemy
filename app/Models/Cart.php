@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Cart extends Model
 {
@@ -13,10 +13,10 @@ class Cart extends Model
     /**
      * The products that belong to the Cart
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function products(): BelongsToMany
+    public function products(): MorphToMany
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity');
+        return $this->morphToMany(Product::class, 'productable')->withPivot('quantity');
     }
 }
