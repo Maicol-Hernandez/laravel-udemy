@@ -67,4 +67,9 @@ class Product extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function scopeAvailable($query)
+    {
+        $query->where('status', 'available');
+    }
 }

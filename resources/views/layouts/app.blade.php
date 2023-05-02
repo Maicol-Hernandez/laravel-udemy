@@ -37,6 +37,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('products.index') }}">{{ __('Products') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('carts.index') }}">{{ __('Cart') }}
+                                @inject('cartService', 'App\Services\CartService')
+                                ({{ $cartService->countProducts() }})
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

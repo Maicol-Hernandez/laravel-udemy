@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    //
 
     public function index(Request $request)
     {
-        $products = Product::all();
+        $products = Product::available()->get();
         return view('welcome', compact('products'));
     }
 }
