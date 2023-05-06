@@ -12,6 +12,9 @@
     </div>
     <div class="card-footer text-muted">
         @isset($cart)
+            <p class="card-text">{{ $product->pivot->quantity }} in your cart
+                <strong>(${{ $product->total }})</strong>
+            </p>
             <form class="d-inline" method="POST"
                 action="{{ route('products.carts.destroy', ['cart' => $cart->id, 'product' => $product->id]) }}">
                 @csrf

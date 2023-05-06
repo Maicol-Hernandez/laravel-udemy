@@ -68,8 +68,23 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    /**
+     * Makes a query where the status is available.
+     * 
+     * @param mixed $query
+     */
     public function scopeAvailable($query)
     {
         $query->where('status', 'available');
+    }
+
+    /**
+     * return total, quantity * price.
+     * 
+     * @return int $total
+     */
+    public function getTotalAttribute()
+    {
+        return $this->pivot->quantity * $this->price;
     }
 }
