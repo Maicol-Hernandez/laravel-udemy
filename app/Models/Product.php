@@ -2,14 +2,24 @@
 
 namespace App\Models;
 
+
+use App\Models\Cart;
+use App\Models\Image;
+use App\Models\Order;
+use App\Models\Scopes\AvailableScope;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory;
+
+    protected $table = 'products';
+
+    protected $with = [
+        'images',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +47,17 @@ class Product extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new AvailableScope);
+    }
 
     /**
      * The carts that belong to the Product

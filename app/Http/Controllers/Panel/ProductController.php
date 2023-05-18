@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Panel;
 
 
-use App\Models\Product;
+use App\Models\PanelProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Scopes\AvailableScope;
+
 
 class ProductController extends Controller
 {
@@ -16,9 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         return view('products.index')->with([
-            'products' => Product::all()
+            'products' => PanelProduct::without('images')->get()
         ]);
     }
 
@@ -40,7 +41,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $product = PanelProduct::create($request->validated());
 
         return redirect()
             ->route('products.index')
@@ -53,7 +54,7 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(PanelProduct $product)
     {
         return view('products.show', compact('product'));
     }
@@ -64,9 +65,9 @@ class ProductController extends Controller
      * @param int id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(PanelProduct $product)
     {
-        $status = Product::select('status')
+        $status = PanelProduct::select('status')
             ->groupByRaw('status')
             ->pluck('status', 'status');
 
@@ -77,10 +78,10 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Product $product
+     * @param PanelProduct $product
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, PanelProduct $product)
     {
         $product->update($request->validated());
 
@@ -94,7 +95,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Product $product)
+    public function destroy(PanelProduct $product)
     {
         $product->delete();
 
