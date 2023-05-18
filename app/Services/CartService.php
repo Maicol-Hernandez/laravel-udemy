@@ -9,6 +9,14 @@ class CartService
 {
 
     protected string $cookieName = 'cart';
+    protected $cookieExpiration = 0.0;
+
+
+    public function __construct()
+    {
+        $this->cookieName = config('cart.cookie.name');
+        $this->cookieExpiration = config('cart.cookie.expiration');
+    }
 
     /**
      * Get from Cookie or create.
@@ -44,7 +52,7 @@ class CartService
      */
     public function makeCookie(Cart $cart)
     {
-        return Cookie::make($this->cookieName, $cart->id, 7 * 24 * 60);
+        return Cookie::make($this->cookieName, $cart->id, $this->cookieExpiration);
     }
 
     /**
