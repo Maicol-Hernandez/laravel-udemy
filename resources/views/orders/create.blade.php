@@ -36,7 +36,6 @@
                                 ${{ $product->total }}
                             </strong>
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
