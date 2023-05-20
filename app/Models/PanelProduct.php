@@ -19,4 +19,28 @@ class PanelProduct extends Product
     {
         // static::addGlobalScope(new AvailableScope);
     }
+
+    /**
+     * return foreignkey
+     * 
+     * @return string
+     */
+    public function getForeignKey()
+    {
+        $parent = get_parent_class($this);
+
+        return (new $parent)->getForeignKey();
+    }
+
+    /**
+     * return Morph class
+     * 
+     * @return string
+     */
+    public function getMorphClass()
+    {
+        $parent = get_parent_class($this);
+
+        return (new $parent)->getMorphClass();
+    }
 }
