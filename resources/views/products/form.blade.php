@@ -84,7 +84,17 @@
     </div>
 </div>
 
-<div class="form-group text-right mb-2">
+<div class="row mb-3">
+    <label for="formFile" class="col-md-4 form-label text-md-end">{{ __('Image') }}</label>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="file" class="form-control" id="formFile" name="images[]" multiple accept="image/*">
+            <label class="input-group-text" for="formFile">Browse</label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group text-end mb-2">
     <button type="submit" class="btn btn-primary">
         Save Product
     </button>
