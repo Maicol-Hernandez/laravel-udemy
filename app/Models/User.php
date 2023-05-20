@@ -60,6 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'admin_since' => 'datetime',
     ];
 
     /**
@@ -69,9 +70,9 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $dates = [
-        'admin_since'
-    ];
+    // protected $dates = [
+    //     'admin_since'
+    // ];
 
     /**
      * Get all of the orders for the User
