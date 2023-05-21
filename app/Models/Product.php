@@ -58,6 +58,14 @@ class Product extends Model
     protected static function booted()
     {
         static::addGlobalScope(new AvailableScope);
+
+        static::updated(function (Product $product) {
+            if ($product->stock == 0 && $product->status == 'available') {
+                $product->status = 'unavailable';
+
+                $product->save();
+            }
+        });
     }
 
     /**

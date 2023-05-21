@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\AvailableScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class Order
@@ -67,13 +68,17 @@ class Order extends Model
         return $this->morphToMany(Product::class, 'productable')->withPivot('quantity');
     }
 
-     /**
+    /**
      * return sum total.
      * 
      * @return int $total
      */
     public function getTotalAttribute()
     {
-        return $this->products->pluck('total')->sum();
+        return $this->products()
+            ->withoutGlobalScope(AvailableScope::class)
+            ->get()
+            ->pluck('total')
+            ->sum();
     }
 }
