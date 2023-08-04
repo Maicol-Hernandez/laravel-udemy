@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -22,7 +23,7 @@ use App\Http\Controllers\OrderPaymentController;
 |
 */
 
-Route::get('/', 'Maincontroller@index')->name('main');
+Route::get('/', [MainController::class, 'index'])->name('main');
 
 Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
