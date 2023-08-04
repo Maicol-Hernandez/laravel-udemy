@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,6 +43,7 @@ class ProfileController extends Controller
             $user =  $request->user();
 
             $user->fill(array_filter($request->validated()));
+            $user->password = Hash::make($user->password);
 
             if ($user->isDirty('email')) {
                 $user->email_verified_at = null;
