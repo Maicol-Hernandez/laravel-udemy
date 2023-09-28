@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         //     Log::debug("From schedule");
         // })->everyMinute();
 
-        $schedule->command('carts:remove-old')->daily();
+        $schedule->command('carts:remove-old')->everyMinute();
     }
 
     /**

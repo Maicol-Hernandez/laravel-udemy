@@ -7,6 +7,7 @@ use App\Services\CartService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Product;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
@@ -68,7 +69,7 @@ class OrderController extends Controller
 
             $cartProductsWithQuantity = $cart
                 ->products
-                ->mapWithKeys(function ($product) {
+                ->mapWithKeys(function (Product $product) {
                     $quantity = $product->pivot->quantity;
                     if ($product->stock < $quantity) {
                         throw ValidationException::withMessages([
